@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+target/universal/stage/bin/packagetree -J-XX:+UseG1GC -J-Xmx2G -J-Xmx2G 500 

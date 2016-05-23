@@ -37,4 +37,8 @@ object PackageTree {
   private def eligibleForIndex(message: Message): Boolean = message.dependencies
     .map(packages.contains(_))
     .forall(_ == true)
+
+  private[packagetree] def wipe(): Unit = packages.clear // method exposed for testing only
+  private[packagetree] def all(): Unit =
+    packages.foreach(x => print(s"$x "))
 }

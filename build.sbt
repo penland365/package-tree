@@ -1,4 +1,7 @@
 enablePlugins(JavaAppPackaging)
+enablePlugins(DockerPlugin)
+
+Defaults.itSettings
 
 lazy val buildSettings = Seq(
   organization := "com.digitalocean",
@@ -35,7 +38,7 @@ scalacOptions in Test ++= Seq("-Yrangepos")
 lazy val baseSettings = Seq(
   scalacOptions ++= compilerOptions, 
   scalacOptions in (Compile, console) := compilerOptions, 
-  libraryDependencies ++= testDependencies.map(_ % "test"),
+  libraryDependencies ++= testDependencies.map(_ % "it,test"),
   autoAPIMappings := true
 )
 
@@ -43,6 +46,7 @@ lazy val allSettings  = buildSettings ++ baseSettings
 
 lazy val packageTree = project.in(file("."))
   .settings(moduleName := "root")
+  .configs( IntegrationTest )
   .settings(allSettings)
   .settings(
     libraryDependencies ++= Seq(

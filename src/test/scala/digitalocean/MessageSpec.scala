@@ -50,7 +50,7 @@ final class MessageSpec extends Specification with ScalaCheck { def is = s2"""
     Arbitrary(genCommand)
   private lazy val genValidMessage: Gen[Message] = for {
     cmd  <- arbitrary[Command]
-    pkg  <- arbitrary[String] suchThat (_.length > 0)
+    pkg  <- Gen.oneOf(dependencies)
     deps <- Gen.someOf(dependencies) 
   } yield new Message(cmd, pkg, deps.toList)
   private implicit lazy val arbitraryMessage: Arbitrary[Message] = Arbitrary(genValidMessage)

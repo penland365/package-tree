@@ -31,3 +31,12 @@ This is expected.
 ```bash
 $ target/universal/stage/bin/packagetree
 ```
+
+## Documentation
+If you execute the `./make` script, scaladocs detailing each class / object and their intended useage
+can be found at `[PROJECT_ROOT]/target/scala-2.11/api/index.html`.
+
+To generate these documents manually, simply run
+```bash
+$ sbt doc
+```

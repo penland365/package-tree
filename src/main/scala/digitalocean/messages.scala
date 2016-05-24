@@ -5,17 +5,28 @@ import java.nio.charset.StandardCharsets
 import scala.util.Try
 import digitalocean.packagetree.errors.InvalidProtocolError
 
+/** Holds all Application level messages */
 object messages {
 
+  /** A base type to represent all Command types that may be issued against a Package Server*/
   sealed abstract class Command
   final case object Index extends Command
   final case object Remove extends Command
   final case object Query extends Command
 
+  /** A message from a client containing a command, the package that command effects, and any
+    *  possible dependencies.
+    * @param command the [Command] the client has given
+    * @param pkg the package affected
+    * @param dependencies a list of any possible dependencies the package may have
+    */
   case class Message(command: Command, pkg: String, dependencies: List[String])
   object Message {
     private[packagetree] val Delimiter = '|' // private to packagetree for testing
 
+    /** Decodes the string representation of the message, returning a Success(message) or 
+      * [[errors.InvalidProtocolError]]
+      */
     def apply(xs: String): Try[Message] = Try({
       val pipeCount = xs.foldLeft(0)((i,j) => j match {
         case Delimiter => i + 1
@@ -46,6 +57,7 @@ object messages {
     })
   }
 
+  /** The base type representing any possible Response a client could expect*/
   sealed abstract class Response() {
     private[this] val okBytes    = "OK\n".getBytes(StandardCharsets.UTF_8)
     private[this] val failBytes  = "FAIL\n".getBytes(StandardCharsets.UTF_8)

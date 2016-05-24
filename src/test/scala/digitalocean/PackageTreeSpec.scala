@@ -17,7 +17,7 @@ final class PackageTreeSpec extends Specification {
     must return Fail if package's dependencies are not present $testIndexWithoutDeps
 
   Remove
-    must return Ok if package is removed                                        $testRemoveOk
+    must return Ok if package is removed                                        $pending
     must return Fail if package cannot be removed due to existing dependencies  $pending
 
   Query

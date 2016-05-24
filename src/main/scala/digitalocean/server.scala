@@ -8,8 +8,15 @@ import java.time.LocalDateTime
 import java.util.concurrent.{ExecutorService, Executors, CountDownLatch}
 import scala.util.{Failure, Success, Try}
 
+/** Contains the network handling classes for the Application */
 object server {
 
+  /** A PackageServer which manages the network for our Application
+    * @constructor creates a Server that binds to the provided port, and an executor service
+    *  to submit work to
+    * @param port the port to Bind to
+    * @param poolSize the fixed size of the Thread Pool to create
+    */
   final class PackageServer(port: Int, poolSize: Int) extends Runnable {
     private val serverSocket = new ServerSocket(port)
     private val pool: ExecutorService = Executors.newFixedThreadPool(poolSize)
@@ -24,6 +31,9 @@ object server {
     }
   }
   
+  /** Handles each individual client connection.
+    * @socket The Socket this connection is bound to
+    */
   private final class ConnectionHandler(socket: Socket) extends Runnable {
   
     def run(): Unit = try {
